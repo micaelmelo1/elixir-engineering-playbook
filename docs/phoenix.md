@@ -7,17 +7,21 @@ Phoenix is the delivery layer of the application.
 Its responsibility is to expose the application's capabilities through HTTP,
 WebSockets, LiveView or APIs.
 
-Phoenix is not the business layer.
-
-Business rules belong to the Domain.
-
-Use Cases belong to the Application layer.
-
-Phoenix should remain as thin as possible.
+Phoenix is not the business layer. It should remain as thin as possible.
 
 ---
 
-# Core Principles
+# References
+
+Delivery layer is defined in:
+[docs/principles/hexagonal_architecture.md](principles/hexagonal_architecture.md)
+
+Domain rules:
+[docs/principles/ddd.md](principles/ddd.md)
+
+---
+
+# Core Responsibilities
 
 Phoenix should:
 
@@ -89,7 +93,7 @@ Responsibilities:
 Avoid:
 
 - calculations
-- validations that belong to the domain
+- domain validations
 - repository access
 - HTTP calls
 - business decisions
@@ -100,9 +104,7 @@ Avoid:
 
 Controllers validate request shape.
 
-The domain validates business rules.
-
-Example:
+Business validation belongs to the domain (see references above).
 
 Controller
 
@@ -111,14 +113,6 @@ Controller
 ✓ JSON format
 
 ✓ parameter types
-
-Domain
-
-✓ amount must be positive
-
-✓ payment cannot be approved twice
-
-✓ account must have balance
 
 ---
 
@@ -144,36 +138,15 @@ Bad
 
 # Contexts
 
-Phoenix Contexts expose application capabilities.
+Phoenix Contexts are the delivery-facing entry point to application capabilities.
 
-Contexts are not repositories.
-
-Contexts are not controllers.
-
-Contexts are the public API of the application.
-
-Examples
-
-Accounts
-
-Payments
-
-Customers
-
-Notifications
-
----
-
-# Context Responsibilities
-
-Contexts should:
+They should:
 
 - expose use cases
-- orchestrate workflows
 - delegate business rules to the domain
-- coordinate repositories
 
-Avoid placing domain logic directly inside contexts.
+Domain and boundary rules are defined in
+[docs/principles/ddd.md](principles/ddd.md).
 
 ---
 
@@ -225,9 +198,7 @@ Use LiveView for interactive interfaces.
 
 Keep business logic outside LiveView.
 
-LiveView should coordinate UI state.
-
-Application and Domain remain unchanged.
+LiveView should coordinate UI state only.
 
 ---
 
@@ -279,8 +250,6 @@ Example
 
 404
 
----
-
 ```elixir
 {:error, :invalid_amount}
 ```
@@ -319,8 +288,6 @@ Calling slow providers
 
 Image processing
 
-Notifications
-
 ---
 
 # Transactions
@@ -345,14 +312,6 @@ The inverse must never happen.
 
 ---
 
-# Configuration
-
-Phoenix configuration belongs to infrastructure.
-
-The domain should not access endpoint configuration.
-
----
-
 # Testing
 
 Controllers should test:
@@ -364,7 +323,7 @@ Controllers should test:
 
 Do not duplicate domain tests.
 
-See testing.md.
+See [testing.md](testing.md).
 
 ---
 
@@ -383,8 +342,6 @@ Calling Repo directly from controllers
 Calling external APIs from controllers
 
 Fat controllers
-
-Database-driven controllers
 
 HTTP-aware domain code
 
@@ -405,8 +362,7 @@ Before implementing a Phoenix feature ask:
 
 # Related Documents
 
-- architecture.md
-- domain.md
-- coding_guidelines.md
-- testing.md
-- ecto.md
+- [architecture.md](architecture.md)
+- [domain.md](domain.md)
+- [coding_guidelines.md](coding_guidelines.md)
+- [testing.md](testing.md)

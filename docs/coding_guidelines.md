@@ -2,34 +2,29 @@
 
 ## Purpose
 
-This document defines the engineering standards for writing maintainable,
-idiomatic, testable, and production-ready Elixir code.
+This document defines Elixir-specific coding standards: naming, error handling,
+idioms and tooling.
 
-These guidelines should be followed across all projects using this playbook.
-
-The primary goals are:
-
-- Readability
-- Simplicity
-- Maintainability
-- Testability
-- Explicitness
-- Consistency
+It does not redefine design principles. Those are canonical in
+[docs/principles](principles).
 
 ---
 
-# Core Principles
+# Design Principles (References)
 
-Every implementation should be:
+Behaviours define contracts for external dependencies.
 
-- Easy to understand
-- Easy to modify
-- Easy to test
-- Easy to review
+Design principles:
+[docs/principles/solid.md](principles/solid.md)
 
-Always optimize for the next developer who will read the code.
+Architecture principles:
+[docs/principles/hexagonal_architecture.md](principles/hexagonal_architecture.md)
 
-Software is read much more often than it is written.
+Composition rules:
+[docs/principles/composition.md](principles/composition.md)
+
+Functional foundation:
+[docs/principles/functional_programming.md](principles/functional_programming.md)
 
 ---
 
@@ -39,8 +34,6 @@ Software is read much more often than it is written.
 
 Choose the simplest solution that correctly solves the problem.
 
-Avoid unnecessary abstractions.
-
 Avoid "clever" code.
 
 Good code should feel boring.
@@ -48,8 +41,6 @@ Good code should feel boring.
 ---
 
 ## Be explicit
-
-Explicit code is easier to understand than implicit behavior.
 
 Prefer
 
@@ -66,65 +57,11 @@ raise "Invalid amount"
 
 ---
 
-## Keep modules focused
-
-A module should have one clear responsibility.
-
-Good
-
-PaymentValidator
-
-PaymentRepository
-
-PaymentProcessor
-
-PaymentNotifier
-
-Bad
-
-PaymentManager
-
-Utils
-
-Helpers
-
-Common
-
----
-
 ## Keep functions small
 
 Functions should usually fit on one screen.
 
-Long functions should be split.
-
 A function should communicate one idea.
-
----
-
-## Prefer composition
-
-Compose multiple small functions.
-
-Avoid giant functions.
-
-Prefer
-
-validate()
-
-↓
-
-calculate()
-
-↓
-
-persist()
-
-↓
-
-notify()
-
-instead of one 300-line function.
 
 ---
 
@@ -140,19 +77,13 @@ Payment
 
 PaymentValidator
 
-PaymentProvider
-
 Invoice
 
 Customer
 
----
-
 Avoid
 
 Manager
-
-Processor
 
 Handler
 
@@ -174,11 +105,7 @@ validate()
 
 approve()
 
-cancel()
-
 calculate_fee()
-
-send_payment()
 
 Bad
 
@@ -186,11 +113,7 @@ do_work()
 
 process_data()
 
-execute()
-
 handle()
-
-run()
 
 without proper context.
 
@@ -204,8 +127,6 @@ Good
 
 payment
 
-customer
-
 expiration_date
 
 retry_count
@@ -216,17 +137,13 @@ data
 
 value
 
-item
-
-obj
-
 tmp
 
 ---
 
 # Pattern Matching
 
-Pattern matching is one of Elixir's greatest strengths.
+Prefer pattern matching in function heads.
 
 Prefer
 
@@ -240,73 +157,7 @@ instead of
 if payment.status == :pending do
 ```
 
----
-
-Prefer multiple function clauses.
-
-Good
-
-```elixir
-def process(%Payment{status: :pending} = payment)
-
-def process(%Payment{status: :approved})
-
-def process(%Payment{status: :cancelled})
-```
-
-Avoid giant case statements whenever multiple clauses improve readability.
-
----
-
-# Functions
-
-Prefer pure functions.
-
-Good
-
-```elixir
-calculate_total(items)
-```
-
-Bad
-
-```elixir
-calculate_total_and_save(items)
-```
-
----
-
-Avoid hidden side effects.
-
-A function should do what its name suggests.
-
----
-
-# Side Effects
-
-Keep side effects at the application's boundaries.
-
-Examples:
-
-Database
-
-HTTP
-
-Redis
-
-Filesystem
-
-Logger
-
-Telemetry
-
-Kafka
-
-RabbitMQ
-
-Email
-
-Domain logic should remain pure whenever possible.
+Prefer multiple function clauses over giant case statements.
 
 ---
 
@@ -318,7 +169,6 @@ Prefer
 
 ```elixir
 {:ok, result}
-
 {:error, reason}
 ```
 
@@ -343,7 +193,7 @@ without context.
 
 # with
 
-Prefer with when chaining operations returning tagged tuples.
+Prefer `with` when chaining operations returning tagged tuples.
 
 Good
 
@@ -382,51 +232,10 @@ External APIs
 JSON
 
 Configuration
+
 Temporary transformations
+
 They should not replace domain models.
-
----
-
-# Behaviours
-
-Every external dependency should have a behaviour.
-
-Examples
-
-PaymentProvider
-Storage
-Cache
-Notification
-Clock
-IdGenerator
-Repositories
-
----
-
-# Dependency Injection
-
-Depend on behaviours.
-Not implementations.
-
-Good
-
-```elixir
-@provider Application.compile_env(...)
-```
-
-Better
-
-```elixir
-process(payment, provider)
-```
-
-or
-
-```elixir
-process(payment, opts)
-```
-
-Domain code should not depend on runtime configuration.
 
 ---
 
@@ -496,9 +305,11 @@ Tail recursion should only be used when necessary.
 Every public module should contain:
 
 @moduledoc
+
 Every public function should contain:
 
 @doc
+
 Every public API should define:
 
 @spec
@@ -608,17 +419,6 @@ Optimize only proven bottlenecks.
 
 ---
 
-# Refactoring
-
-Leave the codebase better than you found it.
-Improve naming.
-Reduce duplication.
-Simplify logic.
-Increase cohesion.
-Reduce coupling.
-
----
-
 # Definition of Done
 
 Code is only complete when:
@@ -635,14 +435,9 @@ Code is only complete when:
 
 ---
 
-# Guiding Principle
+# Related Documents
 
-Whenever there is doubt between two implementations,
-choose the one that is:
-
-- simpler;
-- clearer;
-- more explicit;
-- easier to test;
-- more idiomatic;
-- easier to maintain.
+- [domain.md](domain.md)
+- [architecture.md](architecture.md)
+- [testing.md](testing.md)
+- [phoenix.md](phoenix.md)

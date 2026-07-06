@@ -26,6 +26,19 @@ A good test suite increases confidence without slowing development.
 
 ---
 
+# References
+
+Functional foundation:
+[docs/principles/functional_programming.md](principles/functional_programming.md)
+
+Architecture model:
+[docs/principles/hexagonal_architecture.md](principles/hexagonal_architecture.md)
+
+Domain model:
+[docs/principles/ddd.md](principles/ddd.md)
+
+---
+
 # Testing Philosophy
 
 Test behavior.
@@ -249,23 +262,10 @@ Always test:
 
 Every state transition should be tested.
 
-Example
-
-Pending
-
-↓
-
-Approved
-
-↓
-
-Settled
-
-↓
-
-Cancelled
-
 Both valid and invalid transitions should be covered.
+
+State transition rules are defined in
+[docs/principles/ddd.md](principles/ddd.md).
 
 ---
 
@@ -531,8 +531,7 @@ A feature is only complete when:
 
 # Related Documents
 
-- philosophy.md
-- architecture.md
-- domain.md
-- coding_guidelines.md
-- review.md
+- [architecture.md](architecture.md)
+- [domain.md](domain.md)
+- [coding_guidelines.md](coding_guidelines.md)
+- [phoenix.md](phoenix.md)
