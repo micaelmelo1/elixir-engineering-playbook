@@ -215,3 +215,4 @@ Before returning or propagating an error ask:
 - [coding_guidelines.md](coding_guidelines.md)
 - [phoenix.md](phoenix.md)
 - [otp.md](otp.md)
+- [observability.md](observability.md)
