@@ -30,3 +30,18 @@ Applied guidance. These reference the principles instead of duplicating them.
 - [coding_guidelines.md](docs/coding_guidelines.md)
 - [testing.md](docs/testing.md)
 - [phoenix.md](docs/phoenix.md)
+
+---
+
+## Engineering Framework
+
+Layer-specific execution guides. Each references the principles rather than
+redefining them.
+
+- [otp.md](docs/otp.md) — runtime and supervision model
+- [concurrency.md](docs/concurrency.md) — safe concurrent execution
+- [ecto.md](docs/ecto.md) — persistence without leaking into the domain
+- [observability.md](docs/observability.md) — understanding production behavior
+- [performance.md](docs/performance.md) — scaling correctly on the BEAM
+- [security.md](docs/security.md) — protecting system integrity
+- [review.md](docs/review.md) — enforcing the playbook in development
