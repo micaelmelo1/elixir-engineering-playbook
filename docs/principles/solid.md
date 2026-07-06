@@ -4,8 +4,7 @@
 
 SOLID principles are guidelines for writing maintainable and modular code.
 
-In Elixir, these principles must be interpreted through a functional and
-compositional lens.
+In Elixir, these principles must be interpreted through a functional and compositional lens.
 
 We do NOT apply SOLID as in object-oriented design.
 

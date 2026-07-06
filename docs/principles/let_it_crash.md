@@ -126,7 +126,7 @@ If it fails:
 
 Not all errors should crash processes.
 
-We distinguish:
+At the crash-decision level we distinguish two buckets:
 
 ## 1. Expected errors (business logic)
 
@@ -154,6 +154,14 @@ Example:
 - unexpected exception
 
 These SHOULD crash the process.
+
+---
+
+The full error taxonomy — validation, business rule, infrastructure, and
+programmer errors, plus how each is represented and propagated across
+layers — is canonical in
+[error_handling.md](../error_handling.md). This document only defines the
+crash-or-return decision; it does not redefine error classification.
 
 ---
 
@@ -229,7 +237,9 @@ BEAM philosophy:
 
 # Error Boundaries
 
-Define clear boundaries:
+At the crash level, the boundary is simple: domain and application layers
+return controlled errors; processes crash on the unexpected; supervisors
+restart.
 
 | Layer | Strategy |
 |------|--------|
@@ -237,6 +247,11 @@ Define clear boundaries:
 | Application | controlled errors |
 | Processes | crash on unexpected errors |
 | Supervisors | restart |
+
+The full layer-by-layer error propagation contract — including how adapters
+wrap dependency errors and how the delivery layer maps to HTTP — is
+canonical in
+[error_handling.md](../error_handling.md#error-propagation-across-layers).
 
 ---
 
