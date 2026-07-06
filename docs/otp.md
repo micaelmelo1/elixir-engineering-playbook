@@ -4,11 +4,11 @@
 
 This document defines how systems behave at runtime on the BEAM.
 
-It covers supervision trees, GenServer patterns, process ownership, state
-isolation, restart strategies and crash boundaries.
+It covers supervision trees, GenServer patterns, process design patterns,
+process ownership, state lifecycle, restart strategies and crash boundaries.
 
-It describes runtime structure only. It does not redefine failure philosophy or
-composition — those are canonical in the principles.
+It describes runtime structure only. It does not redefine failure philosophy,
+composition or layering — those are canonical in the principles.
 
 ---
 
@@ -19,6 +19,9 @@ Failure and recovery philosophy:
 
 Process and system composition:
 [docs/principles/composition.md](principles/composition.md)
+
+Layering (domain, application, adapters):
+[docs/principles/hexagonal_architecture.md](principles/hexagonal_architecture.md)
 
 ---
 
@@ -79,6 +82,40 @@ Prefer `handle_call` for request/response, `handle_cast` for fire-and-forget,
 
 ---
 
+# GenServer Role Clarification
+
+A GenServer is NOT:
+
+- a service object
+- a domain orchestrator
+- an application use case
+
+A GenServer is:
+
+> a runtime state container and message handler.
+
+## Correct Layering
+
+The layers are defined in
+[docs/principles/hexagonal_architecture.md](principles/hexagonal_architecture.md).
+Their runtime placement is:
+
+- Domain → pure business logic
+- Application → use case orchestration
+- GenServer → runtime execution and state ownership (a runtime adapter)
+- Phoenix → delivery layer
+
+A GenServer belongs to the runtime/infrastructure side. It does not implement a
+use case; it executes one that the application layer coordinates.
+
+## Rule
+
+Never put business decisions inside GenServer callbacks.
+
+GenServers execute decisions; they do not define them.
+
+---
+
 # Process Ownership Rules
 
 Every piece of runtime state has exactly one owning process.
@@ -86,6 +123,12 @@ Every piece of runtime state has exactly one owning process.
 - state is mutated only by its owner
 - other processes interact through messages
 - no shared mutable state across processes
+
+Ownership also implies:
+
+- no external mutation of a process's state
+- no shared ETS unless explicitly designed as a cache layer
+- no cross-process state mutation
 
 Ownership makes concurrency reasoning local.
 
@@ -100,6 +143,39 @@ A process holds only valid, consistent state.
 - if state becomes inconsistent, crash instead of patching it
 
 State recovery is the supervisor's job, not the process's.
+
+---
+
+# State Lifecycle Model
+
+## Initialization
+
+State must be fully valid at the end of `init/1`.
+
+No partial or lazy initialization.
+
+## Evolution
+
+State changes only through explicit message handling.
+
+Each transition must be deterministic and produce valid state.
+
+## Crash Recovery
+
+If state becomes invalid:
+
+- crash immediately
+- do not attempt repair inside the process
+
+Recovery happens through supervisor restart (see
+[docs/principles/let_it_crash.md](principles/let_it_crash.md)).
+
+## Reset Behavior
+
+After a restart:
+
+- state is rebuilt from the source of truth
+- never rely on previous in-memory state
 
 ---
 
@@ -118,13 +194,70 @@ fail independently.
 
 ---
 
+# Process Design Patterns
+
+## Process-per-Entity
+
+Use one process per business entity when:
+
+- state must be isolated
+- updates must be serialized
+- concurrency conflicts are likely
+
+Examples:
+
+- one process per Payment
+- one process per Account
+
+These are long-lived processes that own an entity's runtime state.
+
+## Process-per-Request
+
+Use short-lived processes when:
+
+- computation is isolated
+- no long-lived state is required
+
+Examples:
+
+- background calculation
+- async orchestration
+
+The process exists for the duration of the work and then exits.
+
+## Registry Pattern
+
+Use a registry when processes must be discovered dynamically.
+
+- each process is addressable via a deterministic key
+- avoid global state lookup
+
+A registry maps business identity to a runtime process.
+
+## Process Aggregation vs Decomposition
+
+Do not aggregate unrelated responsibilities in a single process.
+
+Split processes by:
+
+- lifecycle (long-lived vs short-lived)
+- ownership (which state it holds)
+- failure domain (what must fail together)
+
+If a process serves more than one of these, decompose it.
+
+---
+
 # Anti-patterns
 
 Avoid:
 
-- GenServers used as service objects
+- GenServers used as service objects or application use cases
 - business logic inside callbacks
 - shared mutable state between processes
+- shared ETS treated as writable state instead of a designed cache
+- aggregating unrelated responsibilities in one process
+- relying on in-memory state surviving a restart
 - unbounded process spawning without supervision
 - rescuing errors that should crash
 - supervision trees that mirror module structure instead of failure domains
@@ -136,11 +269,15 @@ Avoid:
 Before adding a process ask:
 
 - Does this need to be a process at all?
+- Which design pattern fits (per-entity, per-request, registry)?
+- Is it long-lived or short-lived?
 - What state does it own?
 - Who supervises it?
 - What is its restart strategy?
 - What is isolated when it crashes?
+- Is state rebuilt from the source of truth after a restart?
 - Is the domain logic kept outside the callbacks?
+- Is the use case orchestrated by the application layer, not the GenServer?
 
 ---
 
