@@ -239,3 +239,4 @@ Before adding concurrent work ask:
 - [otp.md](otp.md)
 - [performance.md](performance.md)
 - [observability.md](observability.md)
+- [error_handling.md](error_handling.md)

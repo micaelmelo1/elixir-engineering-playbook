@@ -19,6 +19,9 @@ Delivery layer is defined in:
 Domain rules:
 [docs/principles/ddd.md](principles/ddd.md)
 
+Error classification and propagation contract:
+[docs/error_handling.md](error_handling.md)
+
 ---
 
 # Core Responsibilities
@@ -260,6 +263,10 @@ Example
 
 The domain should never know HTTP status codes.
 
+The error envelope shape and the rule against leaking internal reasons to
+clients are canonical in
+[error_handling.md](error_handling.md#external-error-representation).
+
 ---
 
 # Rendering
@@ -366,3 +373,4 @@ Before implementing a Phoenix feature ask:
 - [domain.md](domain.md)
 - [coding_guidelines.md](coding_guidelines.md)
 - [testing.md](testing.md)
+- [error_handling.md](error_handling.md)

@@ -286,3 +286,4 @@ Before adding a process ask:
 - [concurrency.md](concurrency.md)
 - [architecture.md](architecture.md)
 - [observability.md](observability.md)
+- [error_handling.md](error_handling.md)

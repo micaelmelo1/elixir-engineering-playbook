@@ -40,6 +40,7 @@ redefining them.
 
 - [otp.md](docs/otp.md) — runtime and supervision model
 - [concurrency.md](docs/concurrency.md) — safe concurrent execution
+- [error_handling.md](docs/error_handling.md) — error taxonomy, propagation, and boundaries
 - [ecto.md](docs/ecto.md) — persistence without leaking into the domain
 - [observability.md](docs/observability.md) — understanding production behavior
 - [performance.md](docs/performance.md) — scaling correctly on the BEAM

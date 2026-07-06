@@ -189,6 +189,11 @@ Avoid
 
 without context.
 
+This section covers syntax and naming only. Error classification (validation
+vs business rule vs infrastructure vs programmer error), layer propagation
+contracts, and retryability are canonical in
+[error_handling.md](error_handling.md).
+
 ---
 
 # with
@@ -441,3 +446,4 @@ Code is only complete when:
 - [architecture.md](architecture.md)
 - [testing.md](testing.md)
 - [phoenix.md](phoenix.md)
+- [error_handling.md](error_handling.md)
