@@ -238,4 +238,5 @@ Before shipping a feature ask:
 - [concurrency.md](concurrency.md)
 - [performance.md](performance.md)
 - [error_handling.md](error_handling.md)
+- [security.md](security.md)
 - [principles/ddd.md](principles/ddd.md)

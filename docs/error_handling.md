@@ -216,3 +216,4 @@ Before returning or propagating an error ask:
 - [phoenix.md](phoenix.md)
 - [otp.md](otp.md)
 - [observability.md](observability.md)
+- [security.md](security.md)

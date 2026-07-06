@@ -240,3 +240,4 @@ Before adding concurrent work ask:
 - [performance.md](performance.md)
 - [observability.md](observability.md)
 - [error_handling.md](error_handling.md)
+- [security.md](security.md)
