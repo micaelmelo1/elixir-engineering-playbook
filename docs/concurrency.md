@@ -241,3 +241,4 @@ Before adding concurrent work ask:
 - [observability.md](observability.md)
 - [error_handling.md](error_handling.md)
 - [security.md](security.md)
+- [ecto.md](ecto.md)

@@ -217,3 +217,4 @@ Before returning or propagating an error ask:
 - [otp.md](otp.md)
 - [observability.md](observability.md)
 - [security.md](security.md)
+- [ecto.md](ecto.md)

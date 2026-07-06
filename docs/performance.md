@@ -195,3 +195,4 @@ Before optimizing ask:
 - [concurrency.md](concurrency.md)
 - [otp.md](otp.md)
 - [observability.md](observability.md)
+- [ecto.md](ecto.md)
