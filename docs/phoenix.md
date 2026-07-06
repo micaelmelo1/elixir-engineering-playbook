@@ -75,7 +75,8 @@ Controller
 HTTP Response
 ```
 
-Every layer has a single responsibility.
+Every layer has a single responsibility (see
+[principles/solid.md](principles/solid.md)).
 
 ---
 

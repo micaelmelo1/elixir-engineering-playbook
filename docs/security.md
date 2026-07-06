@@ -63,7 +63,8 @@ Sensitive data must not spread beyond where it is needed.
 - do not serialize internal structs directly to clients; use explicit views
 - scope data access to the authenticated identity
 
-Each bounded context owns its data and does not expose internals to others.
+Each bounded context owns its data and does not expose internals to others
+(see [principles/ddd.md](principles/ddd.md#bounded-contexts)).
 
 ---
 

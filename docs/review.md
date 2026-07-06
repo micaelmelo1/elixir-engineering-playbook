@@ -74,7 +74,8 @@ Each layer doc's Anti-patterns section is the reference list.
 
 Across the codebase, confirm:
 
-- the same concept is named the same way (ubiquitous language)
+- the same concept is named the same way (ubiquitous language — see
+  [principles/ddd.md](principles/ddd.md#ubiquitous-language))
 - error tuples use explicit, consistent reasons
 - boundaries validate consistently (shape at delivery, rules in domain)
 - telemetry and logging follow one convention — see [observability.md](observability.md)

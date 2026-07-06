@@ -401,26 +401,29 @@ Metaprogramming should be rare.
 
 # Processes
 
-Do not create processes without a reason.
-GenServer is not a service object.
-Only use processes when state or concurrency is required.
+Do not create processes without a reason; only when state or concurrency is
+required.
+
+Process design, the GenServer role, and state lifecycle are canonical in
+[otp.md](otp.md).
 
 ---
 
 # Security
 
-Validate all external input.
-Never trust client data.
-Never expose sensitive information.
-Avoid atom leaks.
+Validate all external input; never trust client data.
+
+Input validation boundaries, secrets, authorization, and abuse boundaries are
+canonical in [security.md](security.md).
 
 ---
 
 # Performance
 
-Measure before optimizing.
-Prefer readability first.
-Optimize only proven bottlenecks.
+Measure before optimizing; prefer readability first.
+
+Performance strategy and BEAM-specific concerns are canonical in
+[performance.md](performance.md).
 
 ---
 
