@@ -287,3 +287,4 @@ Before adding a process ask:
 - [architecture.md](architecture.md)
 - [observability.md](observability.md)
 - [error_handling.md](error_handling.md)
+- [performance.md](performance.md)
