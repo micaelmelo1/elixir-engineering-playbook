@@ -23,20 +23,22 @@ Canonical definitions. Each concept lives in exactly one file.
 
 ## Core Docs
 
-Applied guidance. These reference the principles instead of duplicating them.
+Applied guidance. These reference the principles and Engineering Framework docs
+instead of duplicating them.
 
 - [domain.md](docs/domain.md)
 - [architecture.md](docs/architecture.md)
 - [coding_guidelines.md](docs/coding_guidelines.md)
 - [testing.md](docs/testing.md)
 - [phoenix.md](docs/phoenix.md)
+- [review.md](docs/review.md) — enforcing the playbook in development
 
 ---
 
 ## Engineering Framework
 
-Layer-specific execution guides. Each references the principles rather than
-redefining them.
+Layer-specific execution guides — the canonical source for the operational
+rules of their layer. They apply the principles; they do not redefine them.
 
 - [otp.md](docs/otp.md) — runtime and supervision model
 - [concurrency.md](docs/concurrency.md) — safe concurrent execution
@@ -45,4 +47,3 @@ redefining them.
 - [observability.md](docs/observability.md) — understanding production behavior
 - [performance.md](docs/performance.md) — scaling correctly on the BEAM
 - [security.md](docs/security.md) — protecting system integrity
-- [review.md](docs/review.md) — enforcing the playbook in development
